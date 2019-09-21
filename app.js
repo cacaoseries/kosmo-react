@@ -4,6 +4,7 @@ const players = [
 	{name: "KMG", score: 50, id: 3},
 	{name: "JDI", score: 60, id: 4}
 ];
+
 // function component 만드는 법
 // 1. 대문자로 시작
 // 2. React Element를 리턴
@@ -15,16 +16,36 @@ const Header = (props) => {
 			<span className="stats">{props.totalPlayers}</span>
 		</header>
 	);
-}
+};
 
-const Counter = (props) => {
-	return (
-		<div className="counter">
-			<button className="counter-action decrement"> -</button>
-			<span className="counter-score">{props.score}</span>
-			<button className="counter-action increment"> +</button>
-		</div>
-	);
+// 클래스 컴포넌트
+// 1: React.Component 상속
+// 2: render() 오버라이딩 후 React Element를 리턴
+// 3: 속성 앞에 this
+class Counter extends React.Component {
+	state = { // 생성자 없이 명시적으로 속성을 초기화
+		score: 30
+	};
+
+	increment() {
+		console.log('increment');
+		// this.state.score += 1; // UI 렌더링 안됨
+		this.setState({score: this.state.score + 1}); // 상속받은 메소드, setState()는 비동기 동작
+		this.setState((prevState) => ({ // json의 중괄호로 인식하지 못하므로 { return } 생략하려면 소괄호로 json을 감싼다
+				score: prevState.score + 1 // overwriting 되므로 필요한 속성만 변경 가능
+			}));
+	}
+
+	// react event = 선언형 스타일: 함수 선언문을 우측에 배치
+	render() { // overriding
+		return (
+			<div className="counter">
+				<button className="counter-action decrement"> -</button>
+				<span className="counter-score">{this.state.score}</span>
+				<button className="counter-action increment" onClick={this.increment.bind(this)}> +</button>
+			</div>
+		);
+	}
 }
 
 const Player = (props) => {
@@ -34,7 +55,7 @@ const Player = (props) => {
 			<Counter score={props.score}/>
 		</div>
 	);
-}
+};
 
 const App = (props) => {
 	return (

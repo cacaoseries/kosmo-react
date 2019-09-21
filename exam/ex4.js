@@ -2,9 +2,12 @@
 // 내부적으로 자기자신을 가리키는 this = {} 가 생성
 // {arms:2, legs:2}
 // return이 없으면 this가 리턴
-function Person(a, b) {
-	this.arms = a;
-	this.legs = b;
+function Person(arms, legs) {
+	this.arms = arms;
+	this.legs = legs;
+	this.changeArms = function(inputArms) {
+		this.arms = inputArms;
+	}
 }
 
 // 자바스크립트에서 객체를 생성하는 2가지 방법은 무엇인가? 아래는 어떤 방법인가?
